@@ -6,21 +6,30 @@ import { StartButton } from "../Components/TestPage/startButton";
 
 const TestPage = () => {
   return (
-    <Wrapper>
-      <Left>
-        <TextBox />
-        <StartButton />
-      </Left>
-      <SearchIcon />
-    </Wrapper>
+    <Body>
+      <Wrapper>
+        <Left>
+          <TextBox />
+          <StartButton />
+        </Left>
+        <SearchIcon />
+      </Wrapper>
+    </Body>
   );
 };
 
 export default TestPage;
 
+const Body = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Wrapper = styled.div`
+  transform: translateY(90%);
   width: 1200px;
-  height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;

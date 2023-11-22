@@ -6,21 +6,8 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-family:"Gwangyang-Sunshine";
     user-select: none;
-  }
-
-  body {
     ::-webkit-scrollbar {
-      width: 10px;
-      position:absolute;
-    }
-    ::-webkit-scrollbar-thumb {
-      width: 10px;
-      background-color: ${({ theme }) => theme.color.whitePink};
-      border-radius:5px;
-    }
-    ::-webkit-scrollbar-track {
-      width: 10px;
-      background-color: white;
+      width: 0px;
     }
   }
 `;

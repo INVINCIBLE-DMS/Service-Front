@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
-import { Post } from "../components/BoardPage/Post";
-import { Button } from "../components/BoardPage/Button";
+import { Post } from "../Components/BoardPage/Post";
+import { Button } from "../Components/BoardPage/Button";
 
 export const BoardPage = () => {
   return <Wrapper>

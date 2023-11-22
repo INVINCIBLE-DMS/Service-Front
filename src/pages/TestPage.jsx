@@ -22,13 +22,13 @@ export default TestPage;
 
 const Body = styled.div`
   width: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 const Wrapper = styled.div`
-  transform: translateY(90%);
   width: 1200px;
   display: flex;
   justify-content: space-between;

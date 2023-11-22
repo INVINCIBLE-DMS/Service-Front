@@ -7,4 +7,20 @@ export const GlobalStyle = createGlobalStyle`
     font-family:"Gwangyang-Sunshine";
     user-select: none;
   }
+
+  body {
+    ::-webkit-scrollbar {
+      width: 10px;
+      position:absolute;
+    }
+    ::-webkit-scrollbar-thumb {
+      width: 10px;
+      background-color: ${({ theme }) => theme.color.whitePink};
+      border-radius:5px;
+    }
+    ::-webkit-scrollbar-track {
+      width: 10px;
+      background-color: white;
+    }
+  }
 `;

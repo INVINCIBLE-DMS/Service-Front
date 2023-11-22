@@ -40,6 +40,6 @@ const Left = styled.div`
   flex-direction: column;
   gap: 14px;
   > :last-child {
-    margin-top: 88px;
+    margin-top: 74px;
   }
 `;

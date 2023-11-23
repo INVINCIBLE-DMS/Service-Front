@@ -17,6 +17,7 @@ const HomePage = () => {
               <QuestionMark>?</QuestionMark>
             </Main>
             <TopInput placeholder='ex ) 홍길동' />
+            <Button>궁합 맞춰보기</Button>
           </TextContainer>
         </Left>
         <Right>
@@ -44,6 +45,7 @@ const HomePage = () => {
               <BottomInput placeholder='ex ) 공주님' />
             </BottomInputContainer>
           </FadeInBox>
+          <Button>친구들의 궁합은?</Button>
         </BottomLeft>
         <BottomRight>
           <SpeechBox>
@@ -175,7 +177,7 @@ const BottomWrapper = styled.div`
 `;
 
 const BottomLeft = styled.div`
-  width: 802px;
+  width: 810px;
   padding: 132px;
   display: flex;
   flex-direction: column;
@@ -227,4 +229,17 @@ const SpeechBox = styled.div`
   > :nth-child(4) {
     opacity: 0.4;
   }
+`;
+
+const Button = styled.div`
+  width: 240px;
+  height: 32px;
+  font-size: 16px;
+  line-height: 30px;
+  background-color: ${({ theme }) => theme.color.strongPink};
+  border-radius: 12px;
+  text-align: center;
+  color: white;
+  margin-top: 20px;
+  cursor: pointer;
 `;

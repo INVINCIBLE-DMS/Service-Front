@@ -1,10 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import NameIcon from "../assets/NameIcon.png";
 import NumberIcon from "../assets/NumberIcon.png";
-import { hover } from '@testing-library/user-event/dist/hover';
+import { Link, useNavigate } from 'react-router-dom';
 
-export const SignUp = () => {
+export const SignUp1 = () => {
+    const [name, setName] = useState('');
+    const [number, setNumber] = useState('');
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+    const navigate = useNavigate();
+
+    const handleNameChange = (e) => {
+        const newName = e.target.value;
+        setName(newName);
+        updateButtonState(newName, number);
+    };
+
+    const handleNumberChange = (e) => {
+        const newNumber = e.target.value;
+        setNumber(newNumber);
+        updateButtonState(name, newNumber);
+    };
+
+    const updateButtonState = (newName, newNumber) => {
+        setIsButtonDisabled(!(newName && newNumber));
+    };
+
+    const handleNextClick = () => {
+        if (!isButtonDisabled) {
+            navigate.push('/SignUp2');
+        }
+    };
+
     return (
         <Wrapper>
             <Box>
@@ -12,35 +39,50 @@ export const SignUp = () => {
                 <InputWrapper>
                     <NameWrapper>
                         <NameImg src={NameIcon} alt="" />
-                        <Name placeholder='이름' />
+                        <Name
+                            placeholder='이름'
+                            value={name}
+                            onChange={handleNameChange}
+                        />
                     </NameWrapper>
                     <NumberWrapper>
                         <NumberImg src={NumberIcon} alt='' />
-                        <Number placeholder='학번' />
+                        <Number
+                            placeholder='학번'
+                            value={number}
+                            onChange={handleNumberChange}
+                        />
                     </NumberWrapper>
                 </InputWrapper>
-                <NextBtn>다음</NextBtn>
+                <NextBtn disabled={isButtonDisabled} onClick={handleNextClick}>다음</NextBtn>
             </Box>
         </Wrapper>
     );
 }
 
-const NextBtn = styled.button`
+const NextBtn = styled(Link)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
     margin-top: 190px;
     width: 250px;
     height: 40px;
     font-size: 17px;
-    background-color: ${({ theme }) => theme.color.strongPink}; opacity: 60%;
+    background-color: ${({ theme }) => theme.color.strongPink}; opacity: ${({ disabled }) => (disabled ? '60%' : '100%')};
     font-weight: bolder;
     color: white;
     border: none;
     border-radius: 5px;
-    &:hover{
-        cursor: pointer;
-        background-color: ${({ theme }) => theme.color.strongPink}; opacity: 100%;
+    &:hover {
+        cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+        background-color: ${({ theme }) => theme.color.strongPink}; opacity: ${({ disabled }) => (disabled ? '60%' : '100%')};
         transition: 0.3s;
     }
 `;
+
+// ... (rest of the code remains the same)
+
 
 const NumberImg = styled.img`
     width: 19px;
@@ -127,4 +169,4 @@ const Box = styled.div`
     box-shadow: 3px 3px 5px lightgray;
 `;
 
-export default SignUp;
+export default SignUp1;

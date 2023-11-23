@@ -45,7 +45,9 @@ const HomePage = () => {
               <BottomInput placeholder='ex ) 공주님' />
             </BottomInputContainer>
           </FadeInBox>
-          <Button>친구들의 궁합은?</Button>
+          <FadeInBox>
+            <Button>친구들의 궁합은?</Button>
+          </FadeInBox>
         </BottomLeft>
         <BottomRight>
           <SpeechBox>

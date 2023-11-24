@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import NameIcon from "../assets/NameIcon.png";
-import NumberIcon from "../assets/NumberIcon.png";
+import NameIcon from "../asset/imgs/NameIcon.png";
+import NumberIcon from "../asset/imgs/NumberIcon.png";
 import { Link, useNavigate } from 'react-router-dom';
 
 export const SignUp1 = () => {
@@ -27,9 +27,7 @@ export const SignUp1 = () => {
     };
 
     const handleNextClick = () => {
-        if (!isButtonDisabled) {
-            navigate.push('/SignUp2');
-        }
+        navigate('/SignUp2');
     };
 
     return (
@@ -80,9 +78,6 @@ const NextBtn = styled(Link)`
         transition: 0.3s;
     }
 `;
-
-// ... (rest of the code remains the same)
-
 
 const NumberImg = styled.img`
     width: 19px;

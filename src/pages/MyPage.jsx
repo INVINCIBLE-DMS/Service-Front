@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Profile from "../asset/imgs/profilePicture.svg";
 import School from "../asset/imgs/schoolIcon.svg";
 import Box from "../asset/imgs/Ticket.svg";
+import Letter from "../asset/imgs/letter.svg";
 
 export const MyPage = () => {
     return (
@@ -35,11 +36,25 @@ export const MyPage = () => {
                     <EditButton>수정하기</EditButton>
                     <MyBoardButton>내 게시물 보기</MyBoardButton>
                 </InfoWrapper>
-                <LetterWrapper></LetterWrapper>
+                <LetterWrapper>
+                    <LetterImg src={Letter}></LetterImg>
+                    <Contents></Contents>
+                </LetterWrapper>
             </Wrapper>
         </>
     )
 }
+
+const Contents = styled.div`
+    width: 470px;
+    height: 570px;
+    border: 1px solid rgba(0, 0, 0, 0.21);
+`;
+
+const LetterImg = styled.img`
+    width: 350px;
+    margin-left: 130px;
+`;
 
 const MyBoardButton = styled.button`
     margin-top: 13px;
@@ -166,6 +181,8 @@ const ProfilePicture = styled.img`
 const LetterWrapper = styled.div`
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
 `;
 
 const InfoWrapper = styled.div`
@@ -173,7 +190,8 @@ const InfoWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-left: 110px;
+    margin-left: 85px;
+    margin-top: 12px; //여기다... 여기.... infoWrapper 박스 가로선 기준으로 제발 중앙으로 오게 해조
     width: 240px;
     height: 680px;
     border-radius: 15px;
@@ -183,7 +201,6 @@ const InfoWrapper = styled.div`
 const Wrapper = styled.div`
     display: flex;
     flex-direction: row;
-    align-items: center;
 `;
 
 export default MyPage;

@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Template } from "../pages/Template";
 import { SignUp1 } from "../pages/SignUp1";
 import { SignUp2 } from "../pages/SignUp2";
-import { Ranking } from "../pages/Ranking";
+// import { Ranking } from "../pages/Ranking";
 import { MyPage } from "../pages/MyPage";
 import { Layout } from "./Layout";
 

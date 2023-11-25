@@ -26,6 +26,7 @@ export const Nav = () => {
 const Wrapper = styled.div`
   position: fixed;
   width: 85px;
+  align-self: flex-start;
   height: 100vh;
   display: flex;
   align-items: center;

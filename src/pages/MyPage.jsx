@@ -38,15 +38,26 @@ export const MyPage = () => {
                 </InfoWrapper>
                 <LetterWrapper>
                     <LetterImg src={Letter}></LetterImg>
-                    <Contents></Contents>
+                    <Contents>
+                        <Texts>지금까지 저희를 이용해주셔서 감사합니다!
+                            가장 궁합이 좋은 사람은         님으로 궁합이              .............였네요!
+                            회원님이 포함되어있는 반의 궁합 랭킹은 무려
+                            이랍니다!</Texts>
+                    </Contents>
                 </LetterWrapper>
             </Wrapper>
         </>
     )
 }
 
+const Texts = styled.div`
+    padding: 30px;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.53);
+`;
+
 const Contents = styled.div`
-    width: 470px;
+    width: 500px;
     height: 570px;
     border: 1px solid rgba(0, 0, 0, 0.21);
 `;

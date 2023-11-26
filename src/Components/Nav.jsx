@@ -1,5 +1,7 @@
 import { styled } from "styled-components";
 import { Link } from "react-router-dom";
+import { Icon } from "@iconify/react";
+import { theme } from "../styles/theme";
 
 export const Nav = () => {
   return (
@@ -7,13 +9,13 @@ export const Nav = () => {
       <img src='/imgs/Logo.svg' title='Aster' alt='' />
       <Interactions>
         <Button to='/'>
-          <img src='/imgs/icons/Home.svg' alt='' />
+          <Icon icon="iconoir:home-alt-slim" color={theme.color.darkGray} width="25px"/>
         </Button>
         <Button to='/ranking'>
-          <img src='/imgs/icons/Trophy.svg' alt='' />
+          <Icon icon="iconoir:trophy" color={theme.color.darkGray} width="25px" />
         </Button>
         <Button to='/message'>
-          <img src='/imgs/icons/Message.svg' alt='' />
+        <Icon icon="iconoir:message-text" color={theme.color.darkGray} width="25px" />
         </Button>
         <Button to='/profile' style={{ padding: 0 }}>
           <img src='/imgs/icons/DefaultProfile.svg' alt='' />

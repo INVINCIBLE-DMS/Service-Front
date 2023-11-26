@@ -3,6 +3,7 @@ import Profile from "../asset/imgs/profilePicture.svg";
 import School from "../asset/imgs/schoolIcon.svg";
 import Box from "../asset/imgs/Ticket.svg";
 import Letter from "../asset/imgs/letter.svg";
+import { useState } from "react";
 
 export const MyPage = () => {
     return (
@@ -202,7 +203,7 @@ const InfoWrapper = styled.div`
     justify-content: center;
     align-items: center;
     margin-left: 85px;
-    margin-top: 12px; //여기다... 여기.... infoWrapper 박스 가로선 기준으로 제발 중앙으로 오게 해조
+    margin-top: 12px;
     width: 240px;
     height: 680px;
     border-radius: 15px;

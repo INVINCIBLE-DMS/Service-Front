@@ -16,4 +16,5 @@ const Wrapper = styled.div`
   text-align: center;
   font-size: 24px;
   line-height: 54px;
+  cursor: pointer;
 `;

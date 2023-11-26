@@ -33,5 +33,6 @@ const ProgressBar = styled.div`
 const Progress_ = styled.div`
   width: ${({ width }) => width + "px"};
   height: 16px;
+  border-radius: 30px;
   background-color: ${({ theme }) => theme.color.normalPink};
 `;

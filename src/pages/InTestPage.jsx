@@ -47,6 +47,7 @@ const BtnContainer = styled.div`
   display: flex;
   gap: 96px;
   margin-top: 250px;
+  align-items: center;
   > :first-child {
     margin-right: -64px;
   }

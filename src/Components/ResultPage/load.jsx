@@ -34,6 +34,7 @@ const pieceAnimation = (height, top) => keyframes`
 `;
 
 const AnimatedHeartPiece = styled(HeartPiece)`
+  top: 50px;
   ${({ height, top }) =>
     css`
       animation: ${pieceAnimation(height, top)} 3.2s infinite;

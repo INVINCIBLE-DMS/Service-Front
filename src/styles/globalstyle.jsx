@@ -10,4 +10,10 @@ export const GlobalStyle = createGlobalStyle`
       width: 0px;
     }
   }
+
+  input, textarea, button {
+    border: none;
+    outline: none;
+    resize: none;
+  }
 `;

@@ -32,8 +32,7 @@ const ResultPage = () => {
 export default ResultPage;
 
 const Wrapper = styled.div`
-  width: calc(100vw - 85px);
-  padding-left: 85px;
+  width: calc(100vw);
   height: 100vh;
   display: flex;
   flex-direction: column;

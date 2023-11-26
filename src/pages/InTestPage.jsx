@@ -46,7 +46,7 @@ const Line = styled.div`
 const BtnContainer = styled.div`
   display: flex;
   gap: 96px;
-  margin-top: 250px;
+  margin-top: 200px;
   align-items: center;
   > :first-child {
     margin-right: -64px;
@@ -57,36 +57,41 @@ const BtnContainer = styled.div`
 `;
 
 const Btn1 = styled.div`
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   border: ${({ theme }) => theme.color.strongPink} 8px solid;
+  cursor: pointer;
 `;
 
 const Btn2 = styled.div`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: ${({ theme }) => theme.color.normalPink} 8px solid;
-`;
-
-const Btn3 = styled.div`
   width: 80px;
   height: 80px;
   border-radius: 50%;
+  border: ${({ theme }) => theme.color.normalPink} 8px solid;
+  cursor: pointer;
+`;
+
+const Btn3 = styled.div`
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
   border: ${({ theme }) => theme.color.lightPink} 8px solid;
+  cursor: pointer;
 `;
 
 const Btn4 = styled.div`
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   border: ${({ theme }) => theme.color.milkPink} 8px solid;
+  cursor: pointer;
 `;
 
 const Btn5 = styled.div`
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   border: ${({ theme }) => theme.color.whitePink} 8px solid;
+  cursor: pointer;
 `;

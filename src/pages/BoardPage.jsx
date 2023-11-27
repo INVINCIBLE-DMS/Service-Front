@@ -3,9 +3,11 @@ import { Post } from "../Components/BoardPage/Post";
 import { useState } from "react";
 import { Icon } from "@iconify/react";
 import { theme } from "../styles/theme";
+import { ModalInput, ModalTextArea } from "../Components/BoardPage/ModalInput";
 
 export const BoardPage = () => {
   const [modal, setModal] = useState(false);
+  const [file, setFile] = useState(undefined);
 
   const handleModalOpen = () => {
     document.body.style.overflow = "hidden";
@@ -17,6 +19,10 @@ export const BoardPage = () => {
     setModal(prev => !prev);
   }
 
+  const handleFile = (e) => {
+    setFile(e.target.files[0]);
+  }
+
   return <>
     <Modal $modal={modal}>
       <ModalWrapper>
@@ -24,6 +30,15 @@ export const BoardPage = () => {
           <Upload>게시하기</Upload>
           <Close icon="ph:x-bold" width="30px" onClick={handleModalClose} />
         </Top>
+        <Middle>
+          <ModalInput />
+          <ModalTextArea />
+        </Middle>
+        <Image htmlFor="image" $file={file}>
+          {!file && <Icon icon="ph:camera-light" color="#FFFFFF" width="35px" />}
+          <h1>{file ? file.name : "사진을 추가할 수 있어요"}</h1>
+          <input type="file" id="image" accept="image/*" onChange={handleFile} />
+        </Image>
       </ModalWrapper>
     </Modal>
     <Wrapper>
@@ -49,7 +64,7 @@ export const BoardPage = () => {
 }
 
 const Wrapper = styled.div`
-  gap: 30px;
+  gap: 25px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -93,9 +108,10 @@ const ModalWrapper = styled.div`
   background: #FFFFFF;
   width: 1200px;
   height: 680px;
-  gap: 10px;
+  gap: 30px;
   display: flex;
   align-items: flex-start;
+  flex-direction: column;
   border-radius: 30px;
   box-sizing: border-box;
   padding: 20px;
@@ -107,6 +123,11 @@ const Top = styled.div`
   align-items: center;
   justify-content: flex-end;
   width: 100%;
+`
+
+const Middle = styled(Top)`
+  height:100%;
+  flex-direction: column;
 `
 
 const Upload = styled.button`
@@ -121,4 +142,24 @@ const Upload = styled.button`
 
 const Close = styled(Icon)`
   cursor: pointer;
+`
+
+const Image = styled.label`
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 60px;
+  cursor: pointer;
+  background: ${({$file}) => $file ? theme.color.strongPink : theme.color.normalPink};
+  border-radius: 50px;
+  & > h1 {
+    color: #FFFFFF;
+    font-weight: 300;
+    font-size: 20px;
+  }
+  & > input {
+    display: none;
+  }
 `

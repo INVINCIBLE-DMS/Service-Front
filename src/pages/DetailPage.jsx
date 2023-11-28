@@ -124,7 +124,9 @@ const Bottom = styled.div`
     }
   }
   & > div:nth-child(1) {
-    & > img { cursor: pointer; }
+    & > img { 
+      cursor: pointer; 
+    }
   }
 `
 

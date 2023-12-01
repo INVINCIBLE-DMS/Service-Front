@@ -208,9 +208,6 @@ const Wrapper = styled.div`
 `;
 
 const Box = styled.div`
-    /* display: flex;
-    flex-direction: column;
-    align-items: center; */
     display: grid;
     grid-template-rows: 0.1fr 0.3fr 1fr 0.1fr;
     place-items: center center;

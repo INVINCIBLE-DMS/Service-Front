@@ -9,12 +9,11 @@ import { Layout } from "./Layout";
 export const Router = () => {
   return <BrowserRouter>
     <Routes>
-      <Route element={<Layout />}> {<Route path="/ranking" element={<Ranking />}></Route>}
+      <Route element={<Layout />}> { }
         <Route path="/template" element={<Template />} />
       </Route>
       <Route path="/signUp1" element={<SignUp1 />}></Route>
       <Route path="/signUp2" element={<SignUp2 />}></Route>
-
     </Routes>
-  </BrowserRouter>
+  </BrowserRouter >
 }

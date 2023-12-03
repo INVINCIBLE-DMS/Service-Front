@@ -2,11 +2,11 @@ import { Icon } from "@iconify/react"
 import { styled } from "styled-components"
 import { theme } from "../../styles/theme"
 
-export const SubComment = ({ title, content }) => {
+export const SubComment = ({ author, content }) => {
   return <Component>
     <Icon icon="formkit:reply" rotate="180deg" color={theme.color.strongPink} width="20px" />
     <Data>
-      <h1>{title}</h1>
+      <h1>{author}</h1>
       <h2>{content}</h2>
     </Data>
   </Component>

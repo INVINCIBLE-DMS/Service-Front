@@ -3,7 +3,7 @@ import { theme } from "../../styles/theme";
 
 export const Profile = ({ img, name, date }) => {
   return <Component>
-    <img src={img} alt="" />
+    <img src={img ? img : "/imgs/icons/DefaultProfile.svg"} alt="" />
     <div>
       <h1>{name}</h1>
       <h2>{date}</h2>
@@ -15,6 +15,12 @@ const Component = styled.div`
   gap: 10px;
   display: flex;
   align-items: center;
+  & > img {
+    width: 55px;
+    height: 55px;
+    border-radius: 100px;
+    background: whitesmoke;
+  }
   & > div { // 왼쪽 프로필 정보
     display: flex;
     flex-direction: column;

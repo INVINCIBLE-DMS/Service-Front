@@ -2,9 +2,17 @@ import { styled } from "styled-components";
 import { theme } from "../../styles/theme";
 import { Profile } from "./Profile";
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getPostDetail } from "../../apis/Board";
 
 export const Post = ({ title, content, img, metaData, profile }) => {
-  const navigate = useNavigate();
+  const [commentCnt, setCommentCnt] = useState(0);
+
+  useEffect(() => {
+    getPostDetail(metaData.id).then(res => {
+      setCommentCnt(res.data.commentResponseList.length);
+    })
+  }, [])
 
   const handleLike = () => {
     // 좋아요 버튼 함수
@@ -16,8 +24,8 @@ export const Post = ({ title, content, img, metaData, profile }) => {
       <Link to={`/detail/${metaData.id}`}>자세히 보기</Link>
     </Top>
     <Middle>
-      <h1>{title}</h1>
-      <img src={img} alt="" />
+      { title && <h1>{title}</h1> }
+      { img && <img src={img} alt="" /> }
       <h2>
         {content}
       </h2>
@@ -28,8 +36,8 @@ export const Post = ({ title, content, img, metaData, profile }) => {
         <h1>{metaData.likes}개</h1>
       </div>
       <div>
-        <img src="/imgs/icons/Comment.svg" alt="" onClick={() => navigate(`/detail/${metaData.id}`)} />
-        <h1>{metaData.comments}개</h1>
+        <img src="/imgs/icons/Comment.svg" alt="" />
+        <h1>{commentCnt}개</h1>
       </div>
     </Bottom>
   </Component>
@@ -71,9 +79,14 @@ const Top = styled.div`
 const Middle = styled.div`
   gap: 15px;
   display: flex;
-  align-items: center;
   flex-direction: column;
+  align-self: center;
   width: 100%;
+  box-sizing: border-box;
+  padding: 0 10px 0 10px;
+  & > img {
+    width: 100%;
+  }
   & > h1 {
     align-self: flex-start;
   }
@@ -88,8 +101,6 @@ const Bottom = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 0 20px 0 20px;
-  box-sizing: border-box;
   & > div {
     gap: 10px;
     display: flex;
@@ -98,8 +109,5 @@ const Bottom = styled.div`
       font-size: 25px;
       font-weight: 300;
     }
-  }
-  & img {
-    cursor: pointer;
   }
 `

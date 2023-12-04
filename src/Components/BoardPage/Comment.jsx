@@ -3,19 +3,37 @@ import { theme } from "../../styles/theme"
 import { SubComment } from "./SubComment"
 import { useEffect, useState } from "react"
 import { Write } from "./Write"
+import { getCoComent, postCoComent } from "../../apis/Board"
 
 export const Comment = ({ profile, content, metaData }) => {
   const [hidden, setHidden] = useState(true);
-  const [subComments, setSubComments] = useState([]);
+  const [subComments, setSubComments] = useState(undefined);
+  const [comment, setComment] = useState("");
+  const { id } = metaData;
   
   useEffect(() => {
     if(!hidden) {
-      // 대댓글 가져오는 함수
+      getCoComent(id).then(res => {
+        res.data && setSubComments(res.data);
+      });
     }
   }, [hidden])
 
   const handleComment = () => {
     setHidden(prev => !prev);
+  }
+
+  const handleEditComment = (e) => {
+    setComment(e.target.value);
+  }
+
+  const handleSubmitComment = () => {
+    postCoComent(id, { content: comment }).then(() => {
+      getCoComent(id).then(res => {
+        res.data && setSubComments(res.data);
+      })
+    })
+    setComment("");
   }
 
   return <Component>
@@ -34,7 +52,6 @@ export const Comment = ({ profile, content, metaData }) => {
           </div>
           <div>
             <img src="/imgs/icons/Comment.svg" alt="" title={hidden ? "대댓글 펼치기" : "대댓글 접기"} onClick={handleComment} />
-            <h1>{subComments.length}개</h1>
           </div>
           <h2>수정</h2>
           <h2>삭제</h2>
@@ -42,8 +59,11 @@ export const Comment = ({ profile, content, metaData }) => {
       </Content>
       <SubContent $hidden={hidden}>
         <Comments>
+          {subComments && !hidden && subComments.map(i => {
+            return <SubComment author={i.username} content={i.content} />
+          })}
         </Comments>
-        <Write sub/>
+        <Write submitAction={handleSubmitComment} editAction={handleEditComment} value={comment} sub />
       </SubContent>
     </Data>
   </Component>
@@ -53,6 +73,12 @@ const Component = styled.div`
   gap: 20px;
   display: flex;
   width: 100%;
+  & > img {
+    width: 55px;
+    height: 55px;
+    border-radius: 100px;
+    background: whitesmoke;
+  }
 `
 
 const Data = styled.div`
@@ -86,6 +112,8 @@ const Content = styled.div`
     font-size: 20px;
     font-weight: 300;
     line-height: 30px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
   }
 `
 

@@ -3,28 +3,41 @@ import { Profile } from "../Components/BoardPage/Profile";
 import { Comment } from "../Components/BoardPage/Comment";
 import { Write } from "../Components/BoardPage/Write";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getPostDetail, postComment } from "../apis/Board";
 
 export const DetailPage = () => {
+  const { id } = useParams();
   const [comment, setComment] = useState("");
   const [content, setContent] = useState({
-    author: {
-      name: "아무개님(나)",
-      profileImg: "/imgs/Profile.png",
-    },
-    title: "제목",
     content: "내용",
-    date: "0시간 전",
-    image: undefined,
-    likes: 0,
-    comments: []
+    createdAt: "2023-01-01",
+    feedImgUrl: undefined,
+    likeCount: 0,
+    profileImgUrl: undefined,
+    title: "제목",
+    username: "아무개",
+    commentResponseList: []
   })
 
   useEffect(() => {
-    // 가져오는 함수
+    getPostDetail(id).then(res => {
+      setContent(res.data.feedResponse);
+      setContent(prev => { return { ...prev, commentResponseList: res.data.commentResponseList} });
+    })
   }, [])
 
-  const handleComment = () => {
-    // 댓글 작성 함수
+  const handleSubmitComment = () => {
+    postComment(id, { content: comment }).then(() => {
+      getPostDetail(id).then(res => {
+        setContent(prev => { return { ...prev, commentResponseList: res.data.commentResponseList} });
+      })
+    }).catch(() => {});
+    setComment("");
+  }
+
+  const handleEditComment = (e) => {
+    e.target && setComment(e.target.value);
   }
 
   const handleLike = () => {
@@ -34,38 +47,45 @@ export const DetailPage = () => {
   return <Wrapper>
     <Section>
       <Top>
-        <Profile img={content.author.profileImg} name={content.author.name} date={content.date} />
+        <Profile img={content.profileImgUrl} name={content.username} date={content.createdAt.split("T")[0]} />
         <h1>{content.title}</h1>
         <Line />
       </Top>
       <Middle>
-        { content.image && <img src={content.image} alt="" /> }
+        { content.feedImgUrl && <img src={content.feedImgUrl} alt="" /> }
         <h1>{content.content}</h1>
       </Middle>
       <Bottom>
         <div>
           <img src="/imgs/icons/Like.svg" alt="" />
-          <h1>{content.likes}개</h1>
+          <h1>{content.likeCount}개</h1>
         </div>
         <div>
           <img src="/imgs/icons/Comment.svg" alt="" />
-          <h1>{content.comments.length}개</h1>
+          <h1>{content.commentResponseList.length}개</h1>
         </div>
       </Bottom>
     </Section>
-    <Write />
+    <Write submitAction={handleSubmitComment} editAction={handleEditComment} value={comment} />
     <SectionComment>
-      <Comment 
-        profile={{
-          name: "아무개",
-          profileImg: ""
-        }}
-        content="test"
-        metaData={{
-          edited: false,
-          likes: 0
-        }}
-      />
+      {
+        content.commentResponseList.length !== 0 && content.commentResponseList.map((i, j) => {
+          return <>
+            <Comment 
+              profile={{
+                name: i.commentWriter,
+                profileImg: i.commentWriterProfile ? i.commentWriterProfile : "/imgs/icons/DefaultProfile.svg"
+              }}
+              content={i.commentContent}
+              metaData={{
+                edited: i.commentIsUpdated,
+                likes: i.commentLikeCount,
+                id: i.id
+              }}
+            />
+          </>
+        })
+      }
     </SectionComment>
   </Wrapper>
 }
@@ -102,9 +122,12 @@ const Top = styled.div`
 const Middle = styled.div`
   width: 100%;
   & > h1 { // 글
+    width: 100%;
     font-size: 25px;
     font-weight: 200;
     line-height: 35px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
   }
 `
 

@@ -1,12 +1,26 @@
 import { styled } from "styled-components";
 import { Post } from "../Components/BoardPage/Post";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { theme } from "../styles/theme";
-import { ModalInput, ModalTextArea } from "../Components/BoardPage/ModalInput";
+import { getPosts, postImage, postPost } from "../apis/Board";
+import { Posts } from "../Components/BoardPage/Posts";
 
 export const BoardPage = () => {
+  const [posts, setPosts] = useState(undefined);
   const [modal, setModal] = useState(false);
+  const [data, setData] = useState({
+    title: "",
+    content: "",
+    feedImgUrl: ""
+  })
+
+  useEffect(() => {
+    getPosts().then(res => {
+      res.data && setPosts(res.data);
+    })
+  }, [])
+
   const [file, setFile] = useState(undefined);
 
   const handleModalOpen = () => {
@@ -16,23 +30,49 @@ export const BoardPage = () => {
 
   const handleModalClose = () => {
     document.body.style.overflow = "auto";
+    setData({
+      title: "",
+      content: "",
+      feedImgUrl: ""
+    })
+    setFile(undefined);
     setModal(prev => !prev);
   }
 
   const handleFile = (e) => {
-    setFile(e.target.files[0]);
+    const form = new FormData;
+    form.append("image", e.target.files[0]);
+    postImage(form).then(res => {
+      res.data && setData(prev => { return {...prev, feedImgUrl: res.data.imageUrl} })
+    })
+  }
+
+  const handleChange = (e) => {
+    setData(prev => { return {...prev, [e.target.id]: e.target.value} })
+  }
+
+  const handleSubmit = (e) => {
+    if(data.title !== "" && data.content !== "") {
+      postPost(data).then(() => {
+        getPosts().then(res => {
+          handleModalClose();
+          console.log(res);
+          res.data && setPosts(res.data);
+        })
+      })
+    }
   }
 
   return <>
     <Modal $modal={modal}>
       <ModalWrapper>
         <Top>
-          <Upload>게시하기</Upload>
+          <Upload onClick={handleSubmit}>게시하기</Upload>
           <Close icon="ph:x-bold" width="30px" onClick={handleModalClose} />
         </Top>
         <Middle>
-          <ModalInput />
-          <ModalTextArea />
+          <ModalInput placeholder="제목을 입력하세요" onChange={handleChange} value={data.title} id="title" />
+          <ModalTextArea placeholder="내용을 입력하세요" onChange={handleChange} value={data.content} id="content" />
         </Middle>
         <Image htmlFor="image" $file={file}>
           {!file && <Icon icon="ph:camera-light" color="#FFFFFF" width="35px" />}
@@ -42,20 +82,7 @@ export const BoardPage = () => {
       </ModalWrapper>
     </Modal>
     <Wrapper>
-      <Post 
-        title="저랑 마카롱 공구하실분!!" 
-        img="/imgs/MC.png"
-        content="아이폰을 잃어버렸는대 정멀 슬픈데 지금 저는..."
-        metaData={{ likes: 0, comments: 0, id: 1 }}
-        profile={{ img: "/imgs/Profile.png", name: "의지니님(나)", date: "1시간 전" }}
-      />
-      <Post 
-        title="저랑 마카롱 공구하실분!!" 
-        img="/imgs/MC.png"
-        content="아이폰을 잃어버렸는대 정멀 슬픈데 지금 저는..."
-        metaData={{ likes: 0, comments: 0, id: 2 }}
-        profile={{ img: "/imgs/Profile.png", name: "의지니님(나)", date: "1시간 전" }}
-      />
+      <Posts posts={posts} />
       <Button title="글 작성하기" onClick={handleModalOpen}>
         <Icon icon="uil:plus" width='40px' color='#FFFFFF' />
       </Button>
@@ -133,6 +160,7 @@ const Middle = styled(Top)`
 const Upload = styled.button`
   width: 150px;
   padding: 5px;
+  cursor: pointer;
   border-radius: 50px;
   box-sizing: border-box;
   background: ${theme.color.strongPink};
@@ -162,4 +190,21 @@ const Image = styled.label`
   & > input {
     display: none;
   }
+`
+
+const ModalInput = styled.input`
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 1px solid ${theme.color.darkGray};
+`
+
+const ModalTextArea = styled.textarea`
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 1px solid ${theme.color.darkGray};
 `

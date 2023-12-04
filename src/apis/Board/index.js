@@ -1,15 +1,15 @@
 import { instance } from "../axios";
 
 export const getPosts = async () => {
-  return await instance.get("/users/feed");
+  return await instance.get("/feed");
 }
 
 export const deletePost = async (id) => {
-  return await instance.delete(`/users/feed/${id}`);
+  return await instance.delete(`/feed/${id}`);
 }
 
 export const postPost = async (data) => {
-  return await instance.post("/users/feed", data);
+  return await instance.post("/feed", data);
 }
 
 export const getPostDetail = async (id) => {
@@ -38,4 +38,8 @@ export const postCoComent = async (id, data) => {
 
 export const deleteCoComent = async (id) => {
   return await instance.delete(`/co-coments/${id}`);
+}
+
+export const postImage = async (file) => {
+  return await instance.post("/image", file);
 }

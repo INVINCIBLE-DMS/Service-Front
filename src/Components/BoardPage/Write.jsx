@@ -2,17 +2,25 @@ import { styled } from "styled-components";
 import { theme } from "../../styles/theme";
 import { useRef } from "react";
 
-export const Write = ({ sub }) => {
+export const Write = ({ sub, editAction, submitAction, value }) => {
   const text = useRef();
 
-  const handleResize = () => {
+  const handleChange = (e) => {
     text.current.style.height = "auto";
     text.current.style.height = text.current.scrollHeight + "px";
+    editAction(e);
+  }
+
+  const handleSubmit = () => {
+    if(value !== "") {
+      submitAction();
+      text.current.style.height = "auto"; 
+    }
   }
 
   return <Component $sub={sub}>
-    <textarea onChange={handleResize} rows={1} placeholder="댓글 작성" ref={text} />
-    <Button $sub={sub}>등록</Button>
+    <textarea onChange={handleChange} value={value} rows={1} placeholder="댓글 작성" ref={text} />
+    <Button $sub={sub} onClick={handleSubmit}>등록</Button>
   </Component>
 }
 

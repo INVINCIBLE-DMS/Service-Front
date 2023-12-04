@@ -4,8 +4,16 @@ import SilverCrown from "../asset/imgs/silverCrown.svg";
 import ThirdCrown from "../asset/imgs/thirdCrown.svg";
 import Candy from "../asset/imgs/candy.svg";
 import RankingIcon from "../asset/imgs/ranking.svg";
+import { getRanking } from "../apis/Ranking";
 
 export const Ranking = () => {
+
+    getRanking().then(res => {
+        const rankingData = res.data;
+
+        console.log(rankingData)
+
+    })
     return (
         <>
             <GlobalStyle />

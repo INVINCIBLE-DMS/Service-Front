@@ -10,11 +10,11 @@ export const instance = axios.create({
 instance.interceptors.request.use(
   res => {
     const token = cookie.get("accessToken");
-    if(token) {
+    if (token) {
       res.headers.Authorization = `Bearer ${token}`;
     }
     return res;
-  }, 
+  },
   err => {
     return err;
   }

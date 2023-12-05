@@ -4,7 +4,7 @@ import { Comment } from "../Components/BoardPage/Comment";
 import { Write } from "../Components/BoardPage/Write";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getPostDetail, postComment } from "../apis/Board";
+import { getPostDetail, postComment, postLike } from "../apis/Board";
 
 export const DetailPage = () => {
   const { id } = useParams();
@@ -17,11 +17,13 @@ export const DetailPage = () => {
     profileImgUrl: undefined,
     title: "제목",
     username: "아무개",
+    liked: false,
     commentResponseList: []
   })
 
   useEffect(() => {
     getPostDetail(id).then(res => {
+      console.log(res.data);
       setContent(res.data.feedResponse);
       setContent(prev => { return { ...prev, commentResponseList: res.data.commentResponseList} });
     })
@@ -41,7 +43,11 @@ export const DetailPage = () => {
   }
 
   const handleLike = () => {
-    // 좋아요 버튼 함수
+    postLike(id).then(() => {
+      getPostDetail(id).then(res => {
+        setContent(prev => { return { ...prev, liked: res.data.feedResponse.liked, likeCount: res.data.feedResponse.likeCount } });
+      })
+    })
   }
 
   return <Wrapper>
@@ -57,12 +63,12 @@ export const DetailPage = () => {
       </Middle>
       <Bottom>
         <div>
-          <img src="/imgs/icons/Like.svg" alt="" />
-          <h1>{content.likeCount}개</h1>
+          <Like src="/imgs/icons/Like.svg" alt="" onClick={handleLike} $liked={content.liked} />
+          <h1>{content.likeCount}</h1>
         </div>
         <div>
           <img src="/imgs/icons/Comment.svg" alt="" />
-          <h1>{content.commentResponseList.length}개</h1>
+          <h1>{content.commentResponseList.length}</h1>
         </div>
       </Bottom>
     </Section>
@@ -80,8 +86,10 @@ export const DetailPage = () => {
               metaData={{
                 edited: i.commentIsUpdated,
                 likes: i.commentLikeCount,
-                id: i.id
+                postId: id,
+                id: i.id,
               }}
+              setContent={setContent}
             />
           </>
         })
@@ -94,7 +102,7 @@ const Wrapper = styled.div`
   gap: 30px;
   display: flex;
   flex-direction: column;
-  width: 75%;
+  width: 60%;
   padding: 40px;
   box-sizing: border-box;
 `
@@ -146,15 +154,15 @@ const Bottom = styled.div`
       font-size: 25px;
     }
   }
-  & > div:nth-child(1) {
-    & > img { 
-      cursor: pointer; 
-    }
-  }
 `
 
 const Line = styled.div`
   height: 2px;
   width: 100%;
   background: black;
+`
+
+const Like = styled.img`
+  cursor: pointer;
+  filter: ${({$liked}) => $liked && "invert(80%)"};
 `

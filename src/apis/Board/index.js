@@ -25,7 +25,7 @@ export const patchComment = async (id, data) => {
 }
 
 export const deleteComment = async (id) => {
-  return await instance.delete(`/comment${id}`);
+  return await instance.delete(`/comment/${id}`);
 }
 
 export const getCoComent = async (id) => {
@@ -42,4 +42,12 @@ export const deleteCoComent = async (id) => {
 
 export const postImage = async (file) => {
   return await instance.post("/image", file);
+}
+
+export const postLike = async (id) => {
+  return await instance.post(`/like/${id}`);
+}
+
+export const postCommentLike = async (id) => {
+  return await instance.post(`/comment-like/${id}`);
 }

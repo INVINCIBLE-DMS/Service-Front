@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Template } from "../pages/Template";
-import { SignUp1 } from "../pages/SignUp1";
-import { SignUp2 } from "../pages/SignUp2";
+import { SignUp } from "../pages/SignUp";
 import { Ranking } from "../pages/Ranking";
 import { MyPage } from "../pages/MyPage";
 import { Layout } from "./Layout";
@@ -12,8 +11,7 @@ export const Router = () => {
       <Route element={<Layout />}> { }
         <Route path="/template" element={<Template />} />
       </Route>
-      <Route path="/signUp1" element={<SignUp1 />}></Route>
-      <Route path="/signUp2" element={<SignUp2 />}></Route>
+      <Route path="/signUp" element={<SignUp />}></Route>
     </Routes>
   </BrowserRouter >
 }

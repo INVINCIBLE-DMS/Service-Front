@@ -2,118 +2,80 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import NameIcon from "../asset/imgs/NameIcon.png";
 import NumberIcon from "../asset/imgs/NumberIcon.png";
-import Profile from "../asset/imgs/Profile.svg";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { theme } from '../styles/theme';
+import { getXquareUserInfo, postLogin, postXquareLogin } from '../apis/SignUp';
+import { Cookies } from 'react-cookie';
 
-export const SignUp1 = () => {
+export const SignUp = () => {
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-    const [page, SetPage] = useState(1);
-    const navigate = useNavigate();
-    const [file, setFile] = useState(undefined);
+    const [data, setData] = useState({
+        account_id: '',
+        password: '',
+        device_token: ''
+    });
+    const cookie = new Cookies();
 
-    const onChange = (e) => {
-        const image = Array.from(e.target.files);
-        if (image[0]) {
-            setFile(URL.createObjectURL(image[0]));
-        }
+    const onClick = (e) => {
+        postXquareLogin(data).then(res => {
+            getXquareUserInfo(res.data.access_token, data.account_id).then(res => {
+                const userInfo = res.data;
+
+                const loginData = {
+                    username: userInfo.name,
+                    studentId: `${userInfo.grade}${userInfo.class_num}${userInfo.num}`,
+                    profileImgUrl: userInfo.profile_file_name
+                }
+
+                postLogin(loginData).then(res => {
+                    cookie.set("accessToken", res.data.accessToken);
+                })
+            })
+        })
     }
 
-    const handleNameChange = (e) => {
-        const newName = e.target.value;
-        setName(newName);
-        updateButtonState(newName, number);
-    };
+    const handleChange = (e) => {
+        setData(prev => { return { ...prev, [e.target.id]: e.target.value } });
+    }
 
-    const handleNumberChange = (e) => {
-        const newNumber = e.target.value;
-        setNumber(newNumber);
-        updateButtonState(name, newNumber);
-    };
+    console.log(data);
 
     const updateButtonState = (newName, newNumber) => {
         setIsButtonDisabled(!(newName && newNumber));
     };
 
-    const handleNextClick = () => {
-        SetPage(2);
-    };
-
     return (
         <Wrapper>
             <Box>
-                <Dots>
-                    <Dot selected={page === 1 && true} />
-                    <Dot selected={page === 2 && true} />
-                </Dots>
                 <Title>회원가입</Title>
-                {
-                    page === 1 && <>
-                        <InputWrapper>
-                            <NameWrapper>
-                                <NameImg src={NameIcon} alt="" />
-                                <Name
-                                    placeholder='이름'
-                                    value={name}
-                                    onChange={handleNameChange}
-                                />
-                            </NameWrapper>
-                            <NumberWrapper>
-                                <NumberImg src={NumberIcon} alt='' />
-                                <Number
-                                    placeholder='학번'
-                                    value={number}
-                                    onChange={handleNumberChange}
-                                />
-                            </NumberWrapper>
-                        </InputWrapper>
-                    </>
-                }{
-                    page === 2 && <>
-                        <PictureWrapper>
-                            <ProfileTitle>프로필 사진 선택</ProfileTitle>
-                            <Label>
-                                <ProfilePicture src={file ? file : Profile}></ProfilePicture>
-                                <input onChange={onChange} type="file" accept='image/png, image/jpeg, image/jpg'></input>
-                            </Label>
-                        </PictureWrapper>
-                    </>
-                }
-                <NextBtn disabled={isButtonDisabled} onClick={handleNextClick}>다음</NextBtn>
+                <InputWrapper>
+                    <NameWrapper>
+                        <NameImg src={NameIcon} alt="" />
+                        <Name
+                            placeholder='아이디'
+                            value={data.account_id}
+                            onChange={handleChange}
+                            id="account_id"
+                        />
+                    </NameWrapper>
+                    <NumberWrapper>
+                        <NumberImg src={NumberIcon} alt='' />
+                        <Number
+                            placeholder='비밀번호'
+                            value={data.password}
+                            onChange={handleChange}
+                            id="password"
+                            type="password"
+                        />
+                    </NumberWrapper>
+                </InputWrapper>
+                <NextBtn theme={theme} disabled={isButtonDisabled} onClick={onClick} >회원가입</NextBtn>
             </Box>
         </Wrapper>
     );
 }
-
-const Label = styled.label`
-    cursor: pointer;
-    & > input {
-        display: none;
-    }
-`;
-
-const ProfilePicture = styled.img`
-    width: 100px;
-    border-radius: 50px;
-
-`;
-
-const ProfileTitle = styled.div``;
-
-const PictureWrapper = styled.div`
-    place-self: start center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 250px;
-    height: 190px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.2);
-`;
 
 const NextBtn = styled(Link)`
     display: flex;
@@ -209,7 +171,7 @@ const Wrapper = styled.div`
 
 const Box = styled.div`
     display: grid;
-    grid-template-rows: 0.1fr 0.3fr 1fr 0.1fr;
+    grid-template-rows: 1fr 1fr 1fr;
     place-items: center center;
     width: 430px;
     height: 532px;
@@ -221,18 +183,4 @@ const Box = styled.div`
     padding: 20px;
 `;
 
-const Dots = styled.div`
-    place-self: start center;
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-`
-
-const Dot = styled.div`
-    border-radius: 50px;
-    width: ${({ selected }) => selected ? "20px" : "10px"};
-    height: 10px;
-    background: ${({ selected }) => selected ? theme.color.strongPink : theme.color.darkGray};
-`
-
-export default SignUp1;
+export default SignUp;

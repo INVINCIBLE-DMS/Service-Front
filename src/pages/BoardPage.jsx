@@ -1,5 +1,4 @@
 import { styled } from "styled-components";
-import { Post } from "../Components/BoardPage/Post";
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { theme } from "../styles/theme";
@@ -43,7 +42,10 @@ export const BoardPage = () => {
     const form = new FormData;
     form.append("image", e.target.files[0]);
     postImage(form).then(res => {
-      res.data && setData(prev => { return {...prev, feedImgUrl: res.data.imageUrl} })
+      if(res.data){
+        setFile(e.target.files[0]);
+        setData(prev => { return {...prev, feedImgUrl: res.data.imageUrl} });
+      } 
     })
   }
 
@@ -51,12 +53,11 @@ export const BoardPage = () => {
     setData(prev => { return {...prev, [e.target.id]: e.target.value} })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     if(data.title !== "" && data.content !== "") {
       postPost(data).then(() => {
         getPosts().then(res => {
           handleModalClose();
-          console.log(res);
           res.data && setPosts(res.data);
         })
       })
@@ -75,7 +76,7 @@ export const BoardPage = () => {
           <ModalTextArea placeholder="내용을 입력하세요" onChange={handleChange} value={data.content} id="content" />
         </Middle>
         <Image htmlFor="image" $file={file}>
-          {!file && <Icon icon="ph:camera-light" color="#FFFFFF" width="35px" />}
+          { !file && <Icon icon="ph:camera-light" color="#FFFFFF" width="35px" /> }
           <h1>{file ? file.name : "사진을 추가할 수 있어요"}</h1>
           <input type="file" id="image" accept="image/*" onChange={handleFile} />
         </Image>

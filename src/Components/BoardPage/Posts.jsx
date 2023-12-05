@@ -10,7 +10,7 @@ export const Posts = React.memo(({posts}) => {
           title={i.title} 
           img={i.feedImgUrl && i.feedImgUrl}
           content={i.content.length > 10 ? i.content.substring(0, 10)+"..." : i.content}
-          metaData={{ likes: i.likeCount, id: i.id }}
+          metaData={{ likes: i.likeCount, id: i.id, liked: i.liked }}
           key={i.id}
           profile={{ img: i.profileImgUrl ? i.profileImgUrl : "/imgs/icons/DefaultProfile.svg", name: i.username, date: i.createdAt.split("T")[0]}}
         />

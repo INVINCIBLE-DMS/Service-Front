@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { theme } from "../../styles/theme";
 import { Profile } from "./Profile";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getPostDetail } from "../../apis/Board";
 
@@ -13,10 +13,6 @@ export const Post = ({ title, content, img, metaData, profile }) => {
       setCommentCnt(res.data.commentResponseList.length);
     })
   }, [])
-
-  const handleLike = () => {
-    // 좋아요 버튼 함수
-  }
   
   return <Component>
     <Top>
@@ -32,7 +28,7 @@ export const Post = ({ title, content, img, metaData, profile }) => {
     </Middle>
     <Bottom>
       <div>
-        <img src="/imgs/icons/Like.svg" alt="" />
+        <Like src="/imgs/icons/Like.svg" alt="" $liked={metaData.liked}/>
         <h1>{metaData.likes}개</h1>
       </div>
       <div>
@@ -110,4 +106,8 @@ const Bottom = styled.div`
       font-weight: 300;
     }
   }
+`
+
+const Like = styled.img`
+  filter: ${({$liked}) => $liked && "invert(80%)"};
 `

@@ -88,6 +88,7 @@ export const DetailPage = () => {
                 likes: i.commentLikeCount,
                 postId: id,
                 id: i.id,
+                liked: i.liked
               }}
               setContent={setContent}
             />

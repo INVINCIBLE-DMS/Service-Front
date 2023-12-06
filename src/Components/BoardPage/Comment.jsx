@@ -3,7 +3,7 @@ import { theme } from "../../styles/theme"
 import { SubComment } from "./SubComment"
 import { useEffect, useRef, useState } from "react"
 import { Write } from "./Write"
-import { deleteComment, getCoComent, getPostDetail, patchComment, postCoComent } from "../../apis/Board"
+import { deleteComment, getCoComent, getPostDetail, patchComment, postCoComent, postCommentLike } from "../../apis/Board"
 
 export const Comment = ({ profile, content, metaData, setContent }) => {
   const [hidden, setHidden] = useState(true);
@@ -76,6 +76,14 @@ export const Comment = ({ profile, content, metaData, setContent }) => {
     setComment("");
   }
 
+  const handleLikeComment = () => {
+    postCommentLike(id).then(() => {
+      getPostDetail(metaData.postId).then(res => {
+        setContent(prev => { return { ...prev, commentResponseList: res.data.commentResponseList} });
+      });
+    })
+  }
+
   return <Component>
     <img src={profile.profileImg ? profile.profileImg : "/imgs/Profile.png"} width="50" height="50" alt="" />
     <Data>
@@ -89,7 +97,7 @@ export const Comment = ({ profile, content, metaData, setContent }) => {
         <Bottom $edit={edit.edit}>
           <Left $edit={edit.edit}>
             <div>
-              <img src="/imgs/icons/Like.svg" alt="" />
+              <Like src="/imgs/icons/Like.svg" alt="" $liked={metaData.liked} onClick={handleLikeComment}/>
               <h1>{metaData.likes}</h1>
             </div>
             <div>

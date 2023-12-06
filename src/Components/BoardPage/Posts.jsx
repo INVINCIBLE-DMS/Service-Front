@@ -1,7 +1,7 @@
 import React from "react";
 import { Post } from "./Post";
 
-export const Posts = React.memo(({posts}) => {
+export const Posts = React.memo(({posts, setPosts}) => {
   return <>
     {
       posts
@@ -13,6 +13,7 @@ export const Posts = React.memo(({posts}) => {
           metaData={{ likes: i.likeCount, id: i.id, liked: i.liked }}
           key={i.id}
           profile={{ img: i.profileImgUrl ? i.profileImgUrl : "/imgs/icons/DefaultProfile.svg", name: i.username, date: i.createdAt.split("T")[0]}}
+          setPosts={setPosts}
         />
       })
       : <h5>불러오고 있습니다</h5>}

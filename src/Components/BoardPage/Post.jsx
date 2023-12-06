@@ -3,9 +3,9 @@ import { theme } from "../../styles/theme";
 import { Profile } from "./Profile";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getPostDetail } from "../../apis/Board";
+import { getPostDetail, getPosts, postLike } from "../../apis/Board";
 
-export const Post = ({ title, content, img, metaData, profile }) => {
+export const Post = ({ title, content, img, metaData, profile, setPosts }) => {
   const [commentCnt, setCommentCnt] = useState(0);
 
   useEffect(() => {
@@ -13,6 +13,14 @@ export const Post = ({ title, content, img, metaData, profile }) => {
       setCommentCnt(res.data.commentResponseList.length);
     })
   }, [])
+
+  const handleLikePost = () => {
+    postLike(metaData.id).then(() => {
+      getPosts().then(res => {
+        res.data && setPosts(res.data);
+      })
+    })
+  }
   
   return <Component>
     <Top>
@@ -28,12 +36,12 @@ export const Post = ({ title, content, img, metaData, profile }) => {
     </Middle>
     <Bottom>
       <div>
-        <Like src="/imgs/icons/Like.svg" alt="" $liked={metaData.liked}/>
-        <h1>{metaData.likes}개</h1>
+        <Like src="/imgs/icons/Like.svg" alt="" $liked={metaData.liked} onClick={handleLikePost}/>
+        <h1>{metaData.likes}</h1>
       </div>
       <div>
         <img src="/imgs/icons/Comment.svg" alt="" />
-        <h1>{commentCnt}개</h1>
+        <h1>{commentCnt}</h1>
       </div>
     </Bottom>
   </Component>
@@ -109,5 +117,6 @@ const Bottom = styled.div`
 `
 
 const Like = styled.img`
+  cursor: pointer;
   filter: ${({$liked}) => $liked && "invert(80%)"};
 `

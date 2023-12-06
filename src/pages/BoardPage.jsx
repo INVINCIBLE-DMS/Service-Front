@@ -1,13 +1,14 @@
-import { styled } from "styled-components";
 import { useEffect, useState } from "react";
+import { styled } from "styled-components";
 import { Icon } from "@iconify/react";
-import { theme } from "../styles/theme";
 import { getPosts, postImage, postPost } from "../apis/Board";
 import { Posts } from "../Components/BoardPage/Posts";
+import { theme } from "../styles/theme";
 
 export const BoardPage = () => {
   const [posts, setPosts] = useState(undefined);
   const [modal, setModal] = useState(false);
+  const [file, setFile] = useState(undefined);
   const [data, setData] = useState({
     title: "",
     content: "",
@@ -19,8 +20,6 @@ export const BoardPage = () => {
       res.data && setPosts(res.data);
     })
   }, [])
-
-  const [file, setFile] = useState(undefined);
 
   const handleModalOpen = () => {
     document.body.style.overflow = "hidden";
@@ -42,11 +41,9 @@ export const BoardPage = () => {
     const form = new FormData;
     form.append("image", e.target.files[0]);
     postImage(form).then(res => {
-      if(res.data){
-        setFile(e.target.files[0]);
-        setData(prev => { return {...prev, feedImgUrl: res.data.imageUrl} });
-      } 
-    })
+      setFile(e.target.files[0]);
+      setData(prev => { return {...prev, feedImgUrl: res.data.imageUrl} });
+    }).catch(() => {})
   }
 
   const handleChange = (e) => {
@@ -83,7 +80,7 @@ export const BoardPage = () => {
       </ModalWrapper>
     </Modal>
     <Wrapper>
-      <Posts posts={posts} />
+      <Posts posts={posts} setPosts={setPosts}/>
       <Button title="글 작성하기" onClick={handleModalOpen}>
         <Icon icon="uil:plus" width='40px' color='#FFFFFF' />
       </Button>

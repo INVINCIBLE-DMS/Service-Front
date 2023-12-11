@@ -11,13 +11,13 @@ jobs:
       contents: read
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source code.   # Repo checkout
+      - name: Checkout source code.  
         uses: actions/checkout@v3
       
-      - name: Check Node v            # Node v 확인
+      - name: Check Node v          
         run: node -v
         
-      - name: Install dependencies    # 의존 파일 설치
+      - name: Install dependencies 
         run: npm install
 
       - name: build

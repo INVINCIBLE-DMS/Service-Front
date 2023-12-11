@@ -1,0 +1,7 @@
+config:
+  name: aster
+  service_type: fe
+  port: 8080
+  domain: 
+    prod: aster.xquare.app
+    stag: aster-stag.xquare.app

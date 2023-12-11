@@ -11,13 +11,15 @@ jobs:
       contents: read
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      - name: NodeJS Installation ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-
+      - name: Checkout source code.   # Repo checkout
+        uses: actions/checkout@v3
+      
+      - name: Check Node v            # Node v 확인
+        run: node -v
+        
+      - name: Install dependencies    # 의존 파일 설치
+        run: npm install
+        
       - name: build
         run: npm run build
         working-directory: ./src

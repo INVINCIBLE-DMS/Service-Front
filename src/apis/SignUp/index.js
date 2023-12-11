@@ -1,5 +1,4 @@
 import { instance } from "../axios";
-import { Cookies } from "react-cookie";
 
 export const postLogin = async (data) => {
     return await instance.post("/auth", data)

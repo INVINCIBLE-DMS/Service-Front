@@ -2,23 +2,96 @@ import React from "react";
 import { styled } from "styled-components";
 import { Progress } from "../Components/InTestPage/prgress";
 import { EndBtn } from "../Components/InTestPage/endBtn";
+import { useEffect } from "react";
+import { newSurvey, ansSurvey } from "../apis/Survey";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { theme } from "../styles/theme";
 
 export default function InTestPage() {
+  const buttons = [
+    { size: 100, color: theme.color.strongPink },
+    { size: 80, color: theme.color.normalPink },
+    { size: 60, color: theme.color.lightPink },
+    { size: 80, color: theme.color.milkPink },
+    { size: 100, color: theme.color.whitePink },
+  ];
+
+  const link = useNavigate();
+  const [data, setData] = useState();
+  const [id, setId] = useState(0);
+  const [select, setSelect] = useState(null);
+  const [wait, setWait] = useState(false);
+  const [end, setEnd] = useState(false);
+
+  const value = (num) => {
+    if (num == 0) return "STRONGLY_AGREE";
+    else if (num == 1) return "AGREE";
+    else if (num == 2) return "NEUTRAL";
+    else if (num == 3) return "DISAGREE";
+    else if (num == 4) return "STRONGLY_DISAGREE";
+  };
+
+  useEffect(() => {
+    if (data) return;
+    newSurvey()
+      .then((res) => {
+        setData([...res.data, { content: "끝", surveyType: "끝" }]);
+      })
+      .catch((err) => {
+        link("/home");
+      });
+  }, []);
+
+  const onClick = (num) => {
+    if (wait) return;
+    setSelect(num);
+    setWait(true);
+    ansSurvey({
+      surveyType: data[id].surveyType,
+      answerType: value(num),
+    });
+    setTimeout(() => {
+      setId(id + 1);
+      setSelect(null);
+      setWait(false);
+      if (id + 1 == 3) setEnd(true);
+    }, 2000);
+  };
+
   return (
     <Wrapper>
-      <Progress />
-      <Text>당신은 천재입니까?</Text>
-      <Line />
-      <BtnContainer>
-        <span>매우 그렇다</span>
-        <Btn1></Btn1>
-        <Btn2></Btn2>
-        <Btn3></Btn3>
-        <Btn4></Btn4>
-        <Btn5></Btn5>
-        <span>매우 아니다</span>
-      </BtnContainer>
-      <EndBtn />
+      {data ? (
+        end ? (
+          <EndBtn />
+        ) : (
+          <>
+            <Progress number={id} />
+            <Text>{data[id].content}</Text>
+            <Line />
+            <BtnContainer>
+              <span>매우 그렇다</span>
+              {buttons.map((button, index) => (
+                <Btn
+                  size={button.size}
+                  backColor={button.color}
+                  key={index}
+                  onClick={() => {
+                    onClick(index);
+                  }}>
+                  <InnerBall
+                    backColor={button.color}
+                    selected={index === select}
+                  />
+                </Btn>
+              ))}
+              <span>매우 아니다</span>
+            </BtnContainer>
+          </>
+        )
+      ) : (
+        <>Loading..</>
+      )}
     </Wrapper>
   );
 }
@@ -56,42 +129,21 @@ const BtnContainer = styled.div`
   }
 `;
 
-const Btn1 = styled.div`
-  width: 100px;
-  height: 100px;
+const Btn = styled.div`
+  width: ${({ size }) => size + "px"};
+  height: ${({ size }) => size + "px"};
   border-radius: 50%;
-  border: ${({ theme }) => theme.color.strongPink} 8px solid;
+  border: ${({ backColor }) => backColor} 8px solid;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-const Btn2 = styled.div`
-  width: 80px;
-  height: 80px;
+const InnerBall = styled.div`
+  width: ${({ selected }) => (selected ? "90%" : 0)};
+  background-color: ${({ backColor }) => backColor};
+  height: ${({ selected }) => (selected ? "90%" : 0)};
   border-radius: 50%;
-  border: ${({ theme }) => theme.color.normalPink} 8px solid;
-  cursor: pointer;
-`;
-
-const Btn3 = styled.div`
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: ${({ theme }) => theme.color.lightPink} 8px solid;
-  cursor: pointer;
-`;
-
-const Btn4 = styled.div`
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: ${({ theme }) => theme.color.milkPink} 8px solid;
-  cursor: pointer;
-`;
-
-const Btn5 = styled.div`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: ${({ theme }) => theme.color.whitePink} 8px solid;
-  cursor: pointer;
+  transition: 0.2s linear;
 `;

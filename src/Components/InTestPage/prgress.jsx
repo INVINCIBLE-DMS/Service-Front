@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
 
-export const Progress = () => {
+export const Progress = ({ number }) => {
   return (
     <Wrapper>
-      <Text>Question 13/30</Text>
+      <Text>Question {number}/20</Text>
       <ProgressBar>
-        <Progress_></Progress_>
+        <Progress_ width={(600 / 20) * number}></Progress_>
       </ProgressBar>
     </Wrapper>
   );

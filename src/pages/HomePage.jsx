@@ -1,11 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "styled-components";
 import leftPhone from "../asset/imgs/leftPhone.svg";
 import rightPhone from "../asset/imgs/rightPhone.svg";
 import FadeInBox from "../Components/HomePage/FadeInBox";
 import { Speech } from "../Components/HomePage/Speech";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  const link = useNavigate();
+
+  const [inputState, setInputState] = useState({
+    name: "",
+    name1: "",
+    name2: "",
+  });
+
+  const { name, name1, name2 } = inputState;
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+
+    setInputState({
+      ...inputState,
+      [name]: value,
+    });
+  };
+
+  const onMatch = (name) => {
+    link(`/result/${name}/null`);
+  };
+
+  const onBothMatch = (name1, name2) => {
+    link(`/result/${name1}/${name2}`);
+  };
+
   return (
     <Body>
       <TopWrapper>
@@ -16,8 +44,18 @@ const HomePage = () => {
               나와 <span>최고의 궁합</span>은 누구일까
               <QuestionMark>?</QuestionMark>
             </Main>
-            <TopInput placeholder='ex ) 홍길동' />
-            <Button>궁합 맞춰보기</Button>
+            <TopInput
+              placeholder='ex ) 홍길동'
+              onChange={onChange}
+              name='name'
+              value={name}
+            />
+            <Button
+              onClick={() => {
+                onMatch(name);
+              }}>
+              궁합 맞춰보기
+            </Button>
           </TextContainer>
         </Left>
         <Right>
@@ -41,12 +79,27 @@ const HomePage = () => {
           </FadeInBox>
           <FadeInBox>
             <BottomInputContainer>
-              <BottomInput placeholder='ex ) 왕자님' />
-              <BottomInput placeholder='ex ) 공주님' />
+              <BottomInput
+                placeholder='ex ) 왕자님'
+                onChange={onChange}
+                name='name1'
+                value={name1}
+              />
+              <BottomInput
+                placeholder='ex ) 공주님'
+                onChange={onChange}
+                name='name2'
+                value={name2}
+              />
             </BottomInputContainer>
           </FadeInBox>
           <FadeInBox>
-            <Button>친구들의 궁합은?</Button>
+            <Button
+              onClick={() => {
+                onBothMatch(name1, name2);
+              }}>
+              친구들의 궁합은?
+            </Button>
           </FadeInBox>
         </BottomLeft>
         <BottomRight>

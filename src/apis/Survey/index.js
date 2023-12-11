@@ -5,5 +5,6 @@ export const newSurvey = async () => {
 };
 
 export const ansSurvey = async (data) => {
+  console.log(data);
   return await instance.put("/survey-storage", data);
 };

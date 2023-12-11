@@ -44,13 +44,13 @@ const AnimatedHeartPiece = styled(HeartPiece)`
 const HeartAnimation = () => {
   const colors = [
     { id: 0, color: "#FF49C2", height: 40, top: 24 },
-    { id: 1, color: "#FF49C2", height: 70, top: 34 },
+    { id: 1, color: "#FF49C2", height: 68, top: 34 },
     { id: 2, color: "#FF49C2", height: 80, top: 39 },
     { id: 3, color: "#FF49C2", height: 90, top: 34 },
     { id: 4, color: "#FF49C2", height: 90, top: 24 },
     { id: 5, color: "#FF49C2", height: 90, top: 34 },
     { id: 6, color: "#FF49C2", height: 80, top: 39 },
-    { id: 7, color: "#FF49C2", height: 70, top: 34 },
+    { id: 7, color: "#FF49C2", height: 68, top: 34 },
     { id: 8, color: "#FF49C2", height: 40, top: 24 },
   ];
 

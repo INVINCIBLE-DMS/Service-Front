@@ -16,7 +16,7 @@ COPY . .
 # 소스 코드가 조금 달라질때도 항상 npm install을 수행해서 리소스가 낭비된다.
 
 ARG BASE_URL
-ENV REACT_APP_API_KEY $BASE_URL
+ENV REACT_APP_API_URL $BASE_URL
 # 3000번 포트 노출
 EXPOSE 3000
 

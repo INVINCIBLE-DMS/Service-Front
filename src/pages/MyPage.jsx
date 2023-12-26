@@ -3,9 +3,17 @@ import Profile from "../asset/imgs/profilePicture.svg";
 import School from "../asset/imgs/schoolIcon.svg";
 import Box from "../asset/imgs/Ticket.svg";
 import Letter from "../asset/imgs/letter.svg";
+import { getMyPage } from "../apis/Profile";
 import { useState } from "react";
+import { Cookies } from "react-cookie";
 
 export const MyPage = () => {
+    const cookies = new Cookies();
+
+    getMyPage(cookies.get("accessToken")).then(res => {
+        console.log(res.data);
+    })
+
     return (
         <>
             <Wrapper>

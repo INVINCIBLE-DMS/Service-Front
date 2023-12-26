@@ -14,7 +14,7 @@ export const SignUp = () => {
     const [data, setData] = useState({
         account_id: '',
         password: '',
-        device_token: ''
+        device_token: 'aa'
     });
     const cookie = new Cookies();
 
@@ -36,15 +36,17 @@ export const SignUp = () => {
         })
     }
 
-    const handleChange = (e) => {
-        setData(prev => { return { ...prev, [e.target.id]: e.target.value } });
-    }
-
-    console.log(data);
-
     const updateButtonState = (newName, newNumber) => {
         setIsButtonDisabled(!(newName && newNumber));
     };
+
+    const handleChange = (e) => {
+        setData(prev => {
+            const newData = { ...prev, [e.target.id]: e.target.value };
+            updateButtonState(newData.account_id, newData.password);
+            return newData;
+        });
+    }
 
     return (
         <Wrapper>
@@ -71,7 +73,7 @@ export const SignUp = () => {
                         />
                     </NumberWrapper>
                 </InputWrapper>
-                <NextBtn theme={theme} disabled={isButtonDisabled} onClick={onClick} >회원가입</NextBtn>
+                <NextBtn theme={theme} disabled={isButtonDisabled} onClick={onClick}>회원가입</NextBtn>
             </Box>
         </Wrapper>
     );
@@ -85,17 +87,21 @@ const NextBtn = styled(Link)`
     width: 250px;
     height: 40px;
     font-size: 17px;
-    background-color: ${({ theme }) => theme.color.strongPink}; opacity: ${({ disabled }) => (disabled ? '60%' : '100%')};
+    background-color: ${({ theme }) => theme.color.strongPink};
+    opacity: ${({ disabled }) => (disabled ? '60%' : '100%')};
     font-weight: bolder;
     color: white;
     border: none;
     border-radius: 5px;
+    pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')}; /* Prevent clicking when disabled */
     &:hover {
         cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-        background-color: ${({ theme }) => theme.color.strongPink}; opacity: ${({ disabled }) => (disabled ? '60%' : '100%')};
+        background-color: ${({ theme }) => theme.color.strongPink};
+        opacity: ${({ disabled }) => (disabled ? '60%' : '100%')};
         transition: 0.3s;
     }
 `;
+
 
 const NumberImg = styled.img`
     width: 19px;

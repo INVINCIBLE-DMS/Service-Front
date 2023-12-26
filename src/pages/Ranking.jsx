@@ -5,85 +5,73 @@ import ThirdCrown from "../asset/imgs/thirdCrown.svg";
 import Candy from "../asset/imgs/candy.svg";
 import RankingIcon from "../asset/imgs/ranking.svg";
 import { getRanking } from "../apis/Ranking";
+import { useEffect, useState } from "react";
 
 export const Ranking = () => {
+    const [rankingData, setRankingData] = useState(undefined);
+
+    useEffect(() => {
+        getRanking().then(res => {
+            const { data } = res;
+            setRankingData(data);
+        })
+    }, []);
 
     getRanking().then(res => {
         const rankingData = res.data;
-
-        console.log(rankingData)
-
+        console.log(rankingData);
     })
+
     return (
         <>
             <GlobalStyle />
             <Wrapper>
                 <Box1>
                     <ClassInfo1>
-                        <SecondWrapper>
-                            <Img src={SilverCrown}></Img>
-                            <ClassNumber>1-8</ClassNumber>
-                            <CandyWrapper>
-                                <Icon src={Candy}></Icon>
-                                <CandyNumber>500개</CandyNumber>
-                            </CandyWrapper>
-                        </SecondWrapper>
-                        <FirstWrapper>
-                            <Img src={GoldCrown}></Img>
-                            <ClassNumber>1-2</ClassNumber>
-                            <CandyWrapper>
-                                <Icon src={Candy}></Icon>
-                                <CandyNumber>500개</CandyNumber>
-                            </CandyWrapper>
-                        </FirstWrapper>
-                        <ThirdWrapper>
-                            <Img src={ThirdCrown}></Img>
-                            <ClassNumber>1-8</ClassNumber>
-                            <CandyWrapper>
-                                <Icon src={Candy}></Icon>
-                                <CandyNumber>500개</CandyNumber>
-                            </CandyWrapper>
-                        </ThirdWrapper>
+                        {
+                            rankingData && <>
+                                <SecondWrapper>
+                                    <Img src={SilverCrown}></Img>
+                                    <ClassNumber>{rankingData[1].grade}-{rankingData[1].classNumber}</ClassNumber>
+                                    <CandyWrapper>
+                                        <Icon src={Candy}></Icon>
+                                        <CandyNumber>{rankingData[1].candyCount}개</CandyNumber>
+                                    </CandyWrapper>
+                                </SecondWrapper>
+                                <FirstWrapper>
+                                    <Img src={GoldCrown}></Img>
+                                    <ClassNumber>{rankingData[0].grade}-{rankingData[0].classNumber}</ClassNumber>
+                                    <CandyWrapper>
+                                        <Icon src={Candy}></Icon>
+                                        <CandyNumber>{rankingData[0].candyCount}개</CandyNumber>
+                                    </CandyWrapper>
+                                </FirstWrapper>
+                                <ThirdWrapper>
+                                    <Img src={ThirdCrown}></Img>
+                                    <ClassNumber>{rankingData[2].grade}-{rankingData[2].classNumber}</ClassNumber>
+                                    <CandyWrapper>
+                                        <Icon src={Candy}></Icon>
+                                        <CandyNumber>{rankingData[2].candyCount}개</CandyNumber>
+                                    </CandyWrapper>
+                                </ThirdWrapper>
+                            </>
+                        }
                     </ClassInfo1>
                 </Box1>
                 <Box2>
                     <ClassInfo2>
-                        <InfoWrapper>
-                            <RankingImg src={RankingIcon}></RankingImg>
-                            <OtherNumbers>1학년 7반</OtherNumbers>
-                            <CandyImg src={Candy}></CandyImg>
-                            <CandyNumbers>사탕  - 90개</CandyNumbers>
-                        </InfoWrapper>
-                        <InfoWrapper>
-                            <RankingImg src={RankingIcon}></RankingImg>
-                            <OtherNumbers>1학년 7반</OtherNumbers>
-                            <CandyImg src={Candy}></CandyImg>
-                            <CandyNumbers>사탕  - 90개</CandyNumbers>
-                        </InfoWrapper>
-                        <InfoWrapper>
-                            <RankingImg src={RankingIcon}></RankingImg>
-                            <OtherNumbers>1학년 7반</OtherNumbers>
-                            <CandyImg src={Candy}></CandyImg>
-                            <CandyNumbers>사탕  - 90개</CandyNumbers>
-                        </InfoWrapper>
-                        <InfoWrapper>
-                            <RankingImg src={RankingIcon}></RankingImg>
-                            <OtherNumbers>1학년 7반</OtherNumbers>
-                            <CandyImg src={Candy}></CandyImg>
-                            <CandyNumbers>사탕  - 90개</CandyNumbers>
-                        </InfoWrapper>
-                        <InfoWrapper>
-                            <RankingImg src={RankingIcon}></RankingImg>
-                            <OtherNumbers>1학년 7반</OtherNumbers>
-                            <CandyImg src={Candy}></CandyImg>
-                            <CandyNumbers>사탕  - 90개</CandyNumbers>
-                        </InfoWrapper>
-                        <InfoWrapper>
-                            <RankingImg src={RankingIcon}></RankingImg>
-                            <OtherNumbers>1학년 7반</OtherNumbers>
-                            <CandyImg src={Candy}></CandyImg>
-                            <CandyNumbers>사탕  - 90개</CandyNumbers>
-                        </InfoWrapper>
+                        {rankingData?.map((item, index) => (
+                            <InfoWrapper key={index}>
+                                <div>
+                                    <RankingImg src={RankingIcon}></RankingImg>
+                                    <OtherNumbers>{`${item.grade}학년 ${item.classNumber}반`}</OtherNumbers>
+                                </div>
+                                <div>
+                                    <CandyImg src={Candy}></CandyImg>
+                                    <CandyNumbers>{`사탕 - ${item.candyCount}개`}</CandyNumbers>
+                                </div>
+                            </InfoWrapper>
+                        ))}
                     </ClassInfo2>
                 </Box2>
             </Wrapper>
@@ -94,7 +82,6 @@ export const Ranking = () => {
 const CandyNumbers = styled.div`
     font-weight: bold;
     color: ${({ theme }) => theme.color.darkGray};
-    margin-left: 25px;
     font-size: 20px;
 `;
 
@@ -105,7 +92,6 @@ const CandyImg = styled.img`
 const OtherNumbers = styled.div`
     font-size: 20px;
     font-weight: bold;
-    margin-left: 25px;
 `;
 
 const RankingImg = styled.img`
@@ -114,15 +100,20 @@ const RankingImg = styled.img`
 
 const InfoWrapper = styled.div`
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     width: 1100px;
-    height: 77px;
+    padding: 10px 0 10px 0;
+    box-sizing: border-box;
     background-color: white;
     border: 1px solid #d1cfcf;
     border-radius: 100px;
     box-shadow: 2px 4px 2px 0px rgb(0, 0, 0, 0.1);
+    & > div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 `;
 
 const CandyNumber = styled.div`
@@ -201,12 +192,12 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const ClassInfo2 = styled.div`
+    gap: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     justify-content: space-between;
-    height: 600px;
     margin-top: 50px;
 `;
 
@@ -223,7 +214,7 @@ const Box2 = styled.div`
     flex-direction: column;
     width: 1451px;
     margin-left: 85px;
-    height: 800px;
+    padding: 10px;
     background-color: white;
     border-radius: 70px 70px 0px 0px;
 `;
@@ -238,6 +229,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 150px;
+    height: 100vh;
 `;
 
 

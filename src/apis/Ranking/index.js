@@ -1,5 +1,5 @@
-import axios from "axios";
+import { instance } from "../axios";
 
 export const getRanking = async () => {
-    return await axios.get("/school-class");
+    return await instance.get("/school-class");
 }

@@ -1,13 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import leftPhone from "../asset/imgs/leftPhone.svg";
 import rightPhone from "../asset/imgs/rightPhone.svg";
 import FadeInBox from "../Components/HomePage/FadeInBox";
 import { Speech } from "../Components/HomePage/Speech";
 import { useNavigate } from "react-router-dom";
+import { Cookies } from "react-cookie";
 
 const HomePage = () => {
   const link = useNavigate();
+
+  const cookie = new Cookies();
+  const navigate = new useNavigate();
+
+  useEffect(() => {
+    const token = cookie.get("accessToken");
+    if (!token) {
+      navigate("/signup");
+    }
+  });
 
   const [inputState, setInputState] = useState({
     name: "",
@@ -45,15 +56,16 @@ const HomePage = () => {
               <QuestionMark>?</QuestionMark>
             </Main>
             <TopInput
-              placeholder='ex ) 홍길동'
+              placeholder="ex ) 홍길동"
               onChange={onChange}
-              name='name'
+              name="name"
               value={name}
             />
             <Button
               onClick={() => {
                 onMatch(name);
-              }}>
+              }}
+            >
               궁합 맞춰보기
             </Button>
           </TextContainer>
@@ -80,15 +92,15 @@ const HomePage = () => {
           <FadeInBox>
             <BottomInputContainer>
               <BottomInput
-                placeholder='ex ) 왕자님'
+                placeholder="ex ) 왕자님"
                 onChange={onChange}
-                name='name1'
+                name="name1"
                 value={name1}
               />
               <BottomInput
-                placeholder='ex ) 공주님'
+                placeholder="ex ) 공주님"
                 onChange={onChange}
-                name='name2'
+                name="name2"
                 value={name2}
               />
             </BottomInputContainer>
@@ -97,7 +109,8 @@ const HomePage = () => {
             <Button
               onClick={() => {
                 onBothMatch(name1, name2);
-              }}>
+              }}
+            >
               친구들의 궁합은?
             </Button>
           </FadeInBox>
@@ -105,16 +118,16 @@ const HomePage = () => {
         <BottomRight>
           <SpeechBox>
             <FadeInBox>
-              <Speech messege='변정현의 강요 - 태규' />
+              <Speech messege="변정현의 강요 - 태규" />
             </FadeInBox>
             <FadeInBox>
-              <Speech messege='하는 이유 없음 - 태양' />
+              <Speech messege="하는 이유 없음 - 태양" />
             </FadeInBox>
             <FadeInBox>
-              <Speech messege='깡깡깡 - 의엘' />
+              <Speech messege="깡깡깡 - 의엘" />
             </FadeInBox>
             <FadeInBox>
-              <Speech messege='더나은 dms를 위해 - 의진' />
+              <Speech messege="더나은 dms를 위해 - 의진" />
             </FadeInBox>
           </SpeechBox>
         </BottomRight>

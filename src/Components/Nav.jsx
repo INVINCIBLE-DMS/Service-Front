@@ -6,19 +6,31 @@ import { theme } from "../styles/theme";
 export const Nav = () => {
   return (
     <Wrapper>
-      <img src='/imgs/Logo.svg' title='Aster' alt='' />
+      <img src="/imgs/Logo.svg" title="Aster" alt="" />
       <Interactions>
-        <Button to='/'>
-          <Icon icon="iconoir:home-alt-slim" color={theme.color.darkGray} width="25px"/>
+        <Button to="/">
+          <Icon
+            icon="iconoir:home-alt-slim"
+            color={theme.color.darkGray}
+            width="25px"
+          />
         </Button>
-        <Button to='/ranking'>
-          <Icon icon="iconoir:trophy" color={theme.color.darkGray} width="25px" />
+        <Button to="/ranking">
+          <Icon
+            icon="iconoir:trophy"
+            color={theme.color.darkGray}
+            width="25px"
+          />
         </Button>
-        <Button to='/message'>
-        <Icon icon="iconoir:message-text" color={theme.color.darkGray} width="25px" />
+        <Button to="/board">
+          <Icon
+            icon="iconoir:message-text"
+            color={theme.color.darkGray}
+            width="25px"
+          />
         </Button>
-        <Button to='/profile' style={{ padding: 0 }}>
-          <img src='/imgs/icons/DefaultProfile.svg' alt='' />
+        <Button to="/profile" style={{ padding: 0 }}>
+          <img src="/imgs/icons/DefaultProfile.svg" alt="" />
         </Button>
       </Interactions>
     </Wrapper>

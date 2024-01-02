@@ -1,5 +1,7 @@
-import { instance } from "../axios"
+import { instance } from "../axios";
 
 export const getMyPage = async (token) => {
-    return await instance.get("/my-info/user", { headers: { "Authorization": token } })
-}
+  return await instance.get("/user/my-info", {
+    headers: { Authorization: token },
+  });
+};

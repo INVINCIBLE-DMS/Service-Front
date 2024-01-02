@@ -17,7 +17,7 @@ const ResultPage = () => {
     if (name2 === "null") {
       match(name1)
         .then((res) => {
-          setResult(res.data);
+          setResult(res.data.matchScore);
           const timer = setTimeout(() => {
             setLoad(false);
             setTimeout(() => {
@@ -31,7 +31,7 @@ const ResultPage = () => {
     } else {
       bothMatch(name1, name2)
         .then((res) => {
-          setResult(res.data);
+          setResult(res.data.matchScore);
           const timer = setTimeout(() => {
             setLoad(false);
             setTimeout(() => {
@@ -84,8 +84,9 @@ const ResultPage = () => {
             <Button
               on={on}
               onClick={() => {
-                link("/home");
-              }}>
+                link("/");
+              }}
+            >
               테스트 끝내기
             </Button>
           )}

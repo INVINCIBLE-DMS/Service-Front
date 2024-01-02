@@ -1,20 +1,18 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Template } from "../pages/Template";
-import { SignUp } from "../pages/SignUp";
-import { Ranking } from "../pages/Ranking";
-import { MyPage } from "../pages/MyPage";
-import { Layout } from "./Layout";
-import { DetailPage } from "../pages/DetailPage";
-import { BoardPage } from "../pages/BoardPage";
+import * as _ from "../pages";
 
 export const Router = () => {
   return <BrowserRouter>
     <Routes>
       <Route element={<Layout />}>
-        <Route path="/board" element={<BoardPage />} />
-        <Route path="/detail/:id" element={<DetailPage />} />
-        <Route path="/profile" element={<MyPage />} />
-        <Route path="/ranking" element={<Ranking />}></Route>
+        <Route path="/" element={_.<HomePage />} />
+        <Route path="/board" element={<_.BoardPage />} />
+        <Route path="/detail/:id" element={<_.DetailPage />} />
+        <Route path="/profile" element={<_.MyPage />} />
+        <Route path="/ranking" element={<_.Ranking />} />
+        <Route path="/result" element={<_.ResultPage />} />
+        <Route path="/test" element={<_.TestPage />} />
+        <Route path="/intest" element={<_.InTestPage />} />
       </Route>
       <Route path="/signUp" element={<SignUp />} />
     </Routes>

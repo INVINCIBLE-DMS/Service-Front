@@ -5,7 +5,7 @@ export const Router = () => {
   return <BrowserRouter>
     <Routes>
       <Route element={<Layout />}>
-        <Route path="/" element={_.<HomePage />} />
+        <Route path="/" element={<_.HomePage />} />
         <Route path="/board" element={<_.BoardPage />} />
         <Route path="/detail/:id" element={<_.DetailPage />} />
         <Route path="/profile" element={<_.MyPage />} />
@@ -14,7 +14,7 @@ export const Router = () => {
         <Route path="/test" element={<_.TestPage />} />
         <Route path="/intest" element={<_.InTestPage />} />
       </Route>
-      <Route path="/signUp" element={<SignUp />} />
+      <Route path="/signUp" element={<_.SignUp />} />
     </Routes>
   </BrowserRouter >
 }
